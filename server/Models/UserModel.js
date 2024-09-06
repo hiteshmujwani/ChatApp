@@ -5,9 +5,28 @@ const UserShema = new mongoose.Schema({
   email: {
     type: String,
     unique: true,
+    required: true,
   },
   password: {
     type: String,
+    required: true,
+  },
+  firstName: {
+    type: String,
+    required: false,
+  },
+  lastName: {
+    type: String,
+    required: false,
+  },
+  profileImage: {
+    type: String,
+    required: false,
+  },
+  profileSetup: {
+    type: Boolean,
+    required: false,
+    default: false,
   },
 });
 
@@ -23,4 +42,4 @@ UserShema.pre("save", async function (next) {
   }
 });
 
-export const User = mongoose.model("User", UserShema);
+export const User = mongoose.model("Users", UserShema);
