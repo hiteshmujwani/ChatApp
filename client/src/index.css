@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+body{
+    background-image: linear-gradient(to right top, #7678ed, #9091f3, #a9aaf8, #c2c3fc, #dbdcff) !important;
+    font-family: "Poppins", system-ui !important;
+}
