@@ -25,19 +25,13 @@ import { apiClient } from "../../libs/ApiClient";
 import { SIGNUP_ROUTE } from "../../utils/Constants";
 
 export default function Auth() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [show, setShow] = useState(false);
   const handleClick = () => setShow(!show);
 
-  useEffect(() => {
-    async function callApi() {
-      const res = await apiClient.post(SIGNUP_ROUTE, {
-        email: "hiteshmujwani@gmail.com",
-        password: "hitesh123",
-      });
-      console.log(res);
-    }
-    callApi();
-  });
+  const handleSignup = async () => {};
+  const handleLogin = async () => {};
   return (
     <div className="flex justify-center items-center h-screen w-screen">
       <div className=" w-[90vw] bg-white grid lg:grid-cols-2 rounded-2xl overflow-hidden shadow-2xl ">
@@ -67,6 +61,8 @@ export default function Auth() {
                         />
                         <Input
                           type="email"
+                          onChange={(e) => setEmail(e.target.value)}
+                          value={email}
                           placeholder="Email Address"
                           _placeholder={{ color: "black" }}
                           _focusVisible={false}
@@ -80,6 +76,8 @@ export default function Auth() {
                         <Input
                           type={show ? "text" : "password"}
                           _placeholder={{ color: "black" }}
+                          onChange={(e) => setPassword(e.target.value)}
+                          value={password}
                           placeholder="Password"
                           _focusVisible={false}
                           _hover={false}
@@ -151,6 +149,8 @@ export default function Auth() {
                         <Input
                           type="email"
                           placeholder="Email Address"
+                          onChange={(e) => setEmail(e.target.value)}
+                          value={email}
                           _placeholder={{ color: "black" }}
                           _focusVisible={false}
                           _hover={false}
@@ -164,6 +164,8 @@ export default function Auth() {
                           type={show ? "text" : "password"}
                           _placeholder={{ color: "black" }}
                           placeholder="Password"
+                          onChange={(e) => setPassword(e.target.value)}
+                          value={password}
                           _focusVisible={false}
                           _hover={false}
                           border={"none"}
