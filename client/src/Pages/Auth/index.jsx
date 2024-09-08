@@ -1,8 +1,6 @@
 import {
   Button,
   Input,
-  InputGroup,
-  InputLeftElement,
   Tab,
   TabIndicator,
   TabList,
@@ -10,7 +8,6 @@ import {
   TabPanels,
   Tabs,
 } from "@chakra-ui/react";
-import { EmailIcon, LockIcon } from "@chakra-ui/icons";
 import { Icon } from "@chakra-ui/react";
 import { MdLockOutline } from "react-icons/md";
 import { MdOutlineMailOutline } from "react-icons/md";
@@ -22,18 +19,105 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import QR from "../../assets/QR.png";
 import { apiClient } from "../../libs/ApiClient";
-import { SIGNUP_ROUTE } from "../../utils/Constants";
+import { LOGIN_ROUTE, SIGNUP_ROUTE } from "../../utils/Constants";
+import { useToast } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
+import useAppStore from "../../store/slices/store";
 
 export default function Auth() {
+  const toast = useToast({ position: "top" });
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [show, setShow] = useState(false);
   const handleClick = () => setShow(!show);
+  const { userInfo, setUserInfo } = useAppStore();
 
-  const handleSignup = async () => {};
-  const handleLogin = async () => {};
+  const handleSignup = async () => {
+    try {
+      if (!email.length || !password.length) {
+        toast({
+          status: "warning",
+          description: "Email or Password Is Required",
+        });
+        return;
+      }
+      const response = await apiClient.post(
+        SIGNUP_ROUTE,
+        { email, password },
+        { withCredentials: true }
+      );
+      if (response.status == 201) {
+        setUserInfo(response.data.data);
+        toast({
+          status: "success",
+          description: response.data.msg,
+        });
+
+        if (response.data.data.profileSetup) navigate("/chats");
+        else navigate("/profile");
+      } else {
+        toast({
+          status: "error",
+          description: response.data.msg,
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      toast({
+        status: "error",
+        description: error.response.data.msg,
+      });
+    }
+  };
+  const handleLogin = async () => {
+    try {
+      if (!email.length || !password.length) {
+        toast({
+          status: "warning",
+          description: "Email or Password Is Required",
+        });
+        return;
+      }
+      const response = await apiClient.post(
+        LOGIN_ROUTE,
+        { email, password },
+        { withCredentials: true }
+      );
+
+      console.log(response);
+      if (response.status == 200) {
+        setUserInfo(response.data.data);
+        toast({
+          status: "success",
+          description: response.data.msg,
+        });
+
+        if (response.data.data.profileSetup) navigate("/chats");
+        else navigate("/profile");
+      } else {
+        toast({
+          status: "error",
+          description: response.data.msg,
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      toast({
+        status: "error",
+        description: error.response.data.msg,
+      });
+    }
+  };
+
   return (
-    <div className="flex justify-center items-center h-screen w-screen">
+    <div
+      className="flex justify-center items-center h-screen w-screen"
+      style={{
+        backgroundImage:
+          "linear-gradient(to right top, #7678ed, #9091f3, #a9aaf8, #c2c3fc, #dbdcff)",
+      }}
+    >
       <div className=" w-[90vw] bg-white grid lg:grid-cols-2 rounded-2xl overflow-hidden shadow-2xl ">
         <div className="grid">
           <div className="p-5">
@@ -61,6 +145,7 @@ export default function Auth() {
                         />
                         <Input
                           type="email"
+                          autoComplete={false}
                           onChange={(e) => setEmail(e.target.value)}
                           value={email}
                           placeholder="Email Address"
@@ -102,6 +187,7 @@ export default function Auth() {
                           bg={"#6D59F0"}
                           color={"white"}
                           fontSize={"1.2em"}
+                          onClick={handleLogin}
                           p={6}
                           _hover={false}
                         >
@@ -186,6 +272,7 @@ export default function Auth() {
                           bg={"#6D59F0"}
                           color={"white"}
                           fontSize={"1.2em"}
+                          onClick={handleSignup}
                           p={6}
                           _hover={false}
                         >
