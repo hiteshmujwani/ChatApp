@@ -84,7 +84,6 @@ export const LoginUser = async (req, res) => {
 export const getUserInfo = async (req, res) => {
   try {
     const user = await User.findById(req.userId).select("-password");
-
     if (!user) {
       return res.status(404).json({ msg: "User not found" });
     }
@@ -97,3 +96,33 @@ export const getUserInfo = async (req, res) => {
     res.status(500).json({ msg: "Internal server error" });
   }
 };
+
+// some validations remaining
+export const updateProfile = async (req,res) =>{
+  try {
+    const {userId} = req;
+    const user = await User.findByIdAndUpdate(userId,{...req.body},{new:true})
+    res.status(200).json({
+      success:true,
+      msg:"Profile Updated Successfully",
+      data:user
+    })
+  } catch (error) {
+    console.log("Error in updating Profile",error)
+    res.status(500).json({msg:"Internal Server Error !"})
+  }
+}
+
+// some validations remaining
+export const userLogout = async(req,res) =>{
+  try {
+    res.clearCookie("token"); // deleting cookies from device for logout
+    res.status(200).json({
+      msg:"Logout Successfull",
+      success:true
+    })
+  } catch (error) {
+    console.log("Error in user logout ",error)
+    res.status(500).json({msg:"Internal Server Error !"})
+  }
+}
