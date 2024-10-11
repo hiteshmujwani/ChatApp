@@ -4,6 +4,9 @@ import { useNavigate } from "react-router-dom";
 import { Button, useToast } from "@chakra-ui/react";
 import { apiClient } from "../../libs/ApiClient";
 import { USER_LOGOUT } from "../../utils/Constants";
+import ContactsContainer from "./Components/Contacts-Container";
+import ChatContainer from "./Components/Chat-Container";
+import EmptyChatContainer from "./Components/Empty-Chat-Container";
 
 export default function Chat() {
   //states and variable //
@@ -30,8 +33,11 @@ export default function Chat() {
   });
 
   return(
-    <div>
-    <Button onClick={handleLogout}>Logout</Button>
+    <>
+    <div className="w-screen h-screen flex gap-[1px] bg-[#686864]">
+      <ContactsContainer/>
+      <ChatContainer/>
     </div>
+    </>
   ) 
 }
