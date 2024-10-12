@@ -28,9 +28,10 @@ const ContactsContainer = () => {
       navigate("/");
     }
   };
+
   return (
     <div className="bg-[#242423] text-white w-[25vw] flex flex-col">
-      <div className="flex gap-2 items-center p-[14px]">
+      <div className="flex gap-2 items-center h-[10vh] px-5">
         <Icon as={IoIosChatboxes} color={"white"} height={10} width={10} />
         <div className="text-2xl">Socialize</div>
       </div>
@@ -50,7 +51,7 @@ const ContactsContainer = () => {
           <Title title={"Channels"} />
         </div>
       </div>
-      <div className="absolute bottom-0 w-[25vw] p-2">
+      <div className="absolute bottom-0 w-[25vw] h-[10vh] flex items-center p-2">
         <div className="flex justify-between items-center w-full">
           <div className="flex items-center gap-2 font-medium text-xl">
             <Avatar size={"md"} name={userInfo.firstName} />

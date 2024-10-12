@@ -1,13 +1,14 @@
 import EmptyChatContainer from "../Empty-Chat-Container";
 import ChatHeader from "./Components/ChatHeader";
 import MessageBar from "./Components/MessageBar";
+import MessageContainer from "./Components/MessageContainer";
 
 const ChatContainer = () => {
   return (
     <>
-      <div>
+      <div className="w-[75vw]">
         <ChatHeader />
-        <EmptyChatContainer />
+        <MessageContainer/>
         <MessageBar />
       </div>
     </>

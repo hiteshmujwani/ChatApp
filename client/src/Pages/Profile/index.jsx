@@ -23,7 +23,7 @@ export default function Profile() {
     );
     if (response.status == 200) {
       setUserInfo(response.data.data);
-      toast({ status: "success", description: "Profile Setup Completed" });
+      toast({ status: "success", description: "Profile Updated" });
       navigate("/chat");
     }
   };
@@ -36,7 +36,7 @@ export default function Profile() {
   return (
     <div className="bg-[#242423] h-screen text-white flex justify-center items-center">
       <div className="flex-col flex gap-8">
-        <IoMdArrowRoundBack className="text-5xl" onClick={() => navigate(-1)} />
+        <IoMdArrowRoundBack className="text-5xl cursor-pointer" onClick={() => navigate(-1)} />
         <div className="flex gap-10 items-center">
           <div className="flex flex-col gap-8 items-center">
             <Avatar

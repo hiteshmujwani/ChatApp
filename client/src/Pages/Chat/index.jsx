@@ -11,6 +11,7 @@ import EmptyChatContainer from "./Components/Empty-Chat-Container";
 export default function Chat() {
   //states and variable //
   const { userInfo,setUserInfo } = useAppStore();
+  const {selectedChatType} = useAppStore()
   const toast = useToast();
   const navigate = useNavigate();
 
@@ -36,7 +37,7 @@ export default function Chat() {
     <>
     <div className="w-screen h-screen flex gap-[1px] bg-[#686864]">
       <ContactsContainer/>
-      <ChatContainer/>
+      {selectedChatType ? <ChatContainer/> : <EmptyChatContainer/>}
     </div>
     </>
   ) 
