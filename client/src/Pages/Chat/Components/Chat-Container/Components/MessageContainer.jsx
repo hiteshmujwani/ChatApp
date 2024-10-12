@@ -1,11 +1,7 @@
-import React from 'react'
+import React from "react";
 
 const MessageContainer = () => {
-  return (
-    <div>
-      Message Container
-    </div>
-  )
-}
+  return <div>Message Container</div>;
+};
 
-export default MessageContainer
+export default MessageContainer;

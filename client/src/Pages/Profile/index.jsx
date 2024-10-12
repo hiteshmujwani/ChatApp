@@ -8,31 +8,35 @@ import { useNavigate } from "react-router-dom";
 
 export default function Profile() {
   const toast = useToast({ position: "top" });
-  const navigate = useNavigate()
-  const [firstName,setFirstName] = useState('')
-  const [lastName,setLastName] = useState('')
-  const {userInfo,setUserInfo} = useAppStore()
-
+  const navigate = useNavigate();
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const { userInfo, setUserInfo } = useAppStore();
 
   // Handling Profile setup changes // // some validations remaining
-  const handleSaveChanges = async() =>{
-      console.log("Profile Setup Done")
-      const response = await apiClient.post(UPDATE_PROFILE,{firstName,lastName,profileSetup:true},{withCredentials:true})
-      if(response.status == 200){
-        setUserInfo(response.data.data)
-        toast({status:"success",description:"Profile Setup Completed"})
-        navigate('/chat')
-      }
-  }
+  const handleSaveChanges = async () => {
+    console.log("Profile Setup Done");
+    const response = await apiClient.post(
+      UPDATE_PROFILE,
+      { firstName, lastName, profileSetup: true },
+      { withCredentials: true }
+    );
+    if (response.status == 200) {
+      setUserInfo(response.data.data);
+      toast({ status: "success", description: "Profile Setup Completed" });
+      navigate("/chat");
+    }
+  };
 
   // initialy setting up user details after Saving //
-  useEffect(()=>{
-    console.log("inside Profile page")
-  })
+  useEffect(() => {
+    setFirstName(userInfo.firstName);
+    setLastName(userInfo.lastName);
+  }, [userInfo]);
   return (
     <div className="bg-[#242423] h-screen text-white flex justify-center items-center">
       <div className="flex-col flex gap-8">
-        <IoMdArrowRoundBack className="text-5xl" />
+        <IoMdArrowRoundBack className="text-5xl" onClick={() => navigate(-1)} />
         <div className="flex gap-10 items-center">
           <div className="flex flex-col gap-8 items-center">
             <Avatar
@@ -60,7 +64,9 @@ export default function Profile() {
               _focusVisible={false}
               placeholder="First Name"
               className="!outline-none !text-xl !p-6"
-              onChange={(e)=>{setFirstName(e.target.value)}}
+              onChange={(e) => {
+                setFirstName(e.target.value);
+              }}
               value={firstName}
               _active={false}
             />
@@ -70,13 +76,20 @@ export default function Profile() {
               placeholder="Last Name"
               className="!outline-none !text-xl !p-6"
               value={lastName}
-              onChange={(e)=>{setLastName(e.target.value)}}
+              onChange={(e) => {
+                setLastName(e.target.value);
+              }}
               _active={false}
             />
-
           </div>
         </div>
-        <Button color={"white"} onClick={handleSaveChanges} className="!bg-[#9f6fac]">Save Changes</Button>
+        <Button
+          color={"white"}
+          onClick={handleSaveChanges}
+          className="!bg-[#9f6fac]"
+        >
+          Save Changes
+        </Button>
       </div>
     </div>
   );
