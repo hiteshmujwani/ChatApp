@@ -13,16 +13,14 @@ import {
 } from "@chakra-ui/react";
 import { FaPlus } from "react-icons/fa";
 import { apiClient } from "../../../../../../libs/ApiClient";
-import {
-  SEARCH_CONTACT,
-} from "../../../../../../utils/Constants";
+import { SEARCH_CONTACT } from "../../../../../../utils/Constants";
 import useAppStore from "../../../../../../store/slices/store";
 
 export const NewDm = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [searchedContacts,setSearchContacts] = useState([])
-  const {setSelectedChatType,setSelectedChatData,setSelectedChatMessages} = useAppStore()
-  
+  const [searchedContacts, setSearchContacts] = useState([]);
+  const { setSelectedChatType, setSelectedChatData, setSelectedChatMessages } =
+    useAppStore();
 
   const handleSearch = async (searchTerm) => {
     try {
@@ -31,25 +29,24 @@ export const NewDm = () => {
         { searchTerm },
         { withCredentials: true }
       );
-      if(response.status == 200){
-        setSearchContacts(response.data.data)
+      if (response.status == 200) {
+        setSearchContacts(response.data.data);
       }
     } catch (error) {
       console.log(error);
     }
   };
 
-  
-  const handleSelectContact = async(chat) =>{
+  const handleSelectContact = async (chat) => {
     try {
-      console.log(chat)
-      setSelectedChatType('Contact')
-      setSelectedChatData(chat)
-      onOpen(false)
+      console.log(chat);
+      setSelectedChatType("Contact");
+      setSelectedChatData(chat);
+      onOpen(false);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
   return (
     <>
       <FaPlus
@@ -73,12 +70,29 @@ export const NewDm = () => {
             </FormControl>
             <div className="h-[200px] mt-5 overflow-hidden overflow-y-scroll">
               <div className="flex flex-col gap-3">
-                {searchedContacts<=0 ? "" : searchedContacts.map((contacts)=>(
-                  <div className="flex items-center gap-2 cursor-pointer" onClick={()=>handleSelectContact(contacts)} key={contacts._id}>
-                  <Avatar size={"sm"} name={contacts.firstName ? contacts.firstName : contacts.email}/>
-                  <div>{contacts.firstName ? contacts.firstName : contacts.email }</div>
-                </div>
-                ))}
+                {searchedContacts <= 0
+                  ? ""
+                  : searchedContacts.map((contacts) => (
+                      <div
+                        className="flex items-center gap-2 cursor-pointer"
+                        onClick={() => handleSelectContact(contacts)}
+                        key={contacts._id}
+                      >
+                        <Avatar
+                          size={"sm"}
+                          name={
+                            contacts.firstName
+                              ? contacts.firstName
+                              : contacts.email
+                          }
+                        />
+                        <div>
+                          {contacts.firstName
+                            ? contacts.firstName
+                            : contacts.email}
+                        </div>
+                      </div>
+                    ))}
               </div>
             </div>
           </ModalBody>

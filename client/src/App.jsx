@@ -27,7 +27,7 @@ function App() {
   const AuthRoute = ({ children }) => {
     const isAuthenticated = !!userInfo;
     return isAuthenticated ? <Navigate to={"/chat"} /> : children;
-  }; 
+  };
 
   useEffect(() => {
     const getUserInfo = async () => {

@@ -5,6 +5,7 @@ import mongoose from "mongoose";
 import cookieParser from "cookie-parser";
 import AuthRouter from "./Routes/AuthRoutes.js";
 import ContactRouter from "./Routes/ContactsRoute.js";
+import SocketSetup from "./Socket.js";
 
 // configuring dot env
 dotenv.config();
@@ -46,3 +47,6 @@ app.use("/api/v1/contact", ContactRouter);
 const server = app.listen(port, () => {
   console.log(`SERVER RUNNING ON ${port}`);
 });
+
+//passing server to socket
+SocketSetup(server);
