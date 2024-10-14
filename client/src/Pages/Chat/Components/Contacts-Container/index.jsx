@@ -1,17 +1,18 @@
 import { Avatar, Divider, Icon, useToast } from "@chakra-ui/react";
-import React from "react";
+import React, { useEffect } from "react";
 import { IoIosChatboxes } from "react-icons/io";
 import { GoDotFill } from "react-icons/go";
 import { NewDm } from "./Components/NewDm";
 import useAppStore from "../../../../store/slices/store";
 import { MdLogout } from "react-icons/md";
 import { FaRegEdit } from "react-icons/fa";
-import { USER_LOGOUT } from "../../../../utils/Constants";
+import { GET_DM_CONTACT_LIST, USER_LOGOUT } from "../../../../utils/Constants";
 import { apiClient } from "../../../../libs/ApiClient";
 import { useNavigate } from "react-router-dom";
+import DmContactsList from "./Components/DmContactsList";
 
 const ContactsContainer = () => {
-  const { userInfo, setUserInfo } = useAppStore();
+  const { userInfo, setUserInfo,setDmContactsList,dmContactsList } = useAppStore();
   const navigate = useNavigate();
   const toast = useToast();
 
@@ -29,6 +30,23 @@ const ContactsContainer = () => {
     }
   };
 
+  useEffect(()=>{
+    const getDmContacts = async () =>{
+      try {
+        const response = await apiClient.get(GET_DM_CONTACT_LIST,{withCredentials:true})
+        setDmContactsList(response.data.contacts)
+      } catch (error) {
+        console.log("error in fetching dm list in frontend " ,error)
+      }
+    }
+    
+    if(dmContactsList.length > 0){
+      return
+    }
+    
+    getDmContacts()
+  },[])
+
   return (
     <div className="bg-[#242423] text-white w-[25vw] flex flex-col">
       <div className="flex gap-2 items-center h-[10vh] px-5">
@@ -37,6 +55,7 @@ const ContactsContainer = () => {
       </div>
       <Divider />
       <div className="flex flex-col p-5 gap-1 ">
+        <div>
         <div className="flex justify-between items-center">
           <div className="flex gap-1 items-center">
             <GoDotFill />
@@ -45,6 +64,8 @@ const ContactsContainer = () => {
           <div>
             <NewDm />
           </div>
+        </div>
+        {dmContactsList != undefined && <DmContactsList/>}
         </div>
         <div className="flex gap-1 items-center">
           <GoDotFill />

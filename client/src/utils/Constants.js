@@ -9,3 +9,8 @@ export const USER_LOGOUT = `${AUTH_ROUTES}/user-logout`;
 
 export const CONTACT_ROUTE = "/api/v1/contact";
 export const SEARCH_CONTACT = `${CONTACT_ROUTE}/search`;
+export const GET_DM_CONTACT_LIST = `${CONTACT_ROUTE}/get-dm-contact-list`;
+
+
+export const CHAT_ROUTE = "/api/v1/chat";
+export const GET_MESSAGES = `${CHAT_ROUTE}/get-messages`

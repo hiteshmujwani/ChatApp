@@ -19,7 +19,7 @@ import useAppStore from "../../../../../../store/slices/store";
 export const NewDm = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [searchedContacts, setSearchContacts] = useState([]);
-  const { setSelectedChatType, setSelectedChatData, setSelectedChatMessages } =
+  const { setSelectedChatType, setSelectedChatData,closeChat } =
     useAppStore();
 
   const handleSearch = async (searchTerm) => {
@@ -40,6 +40,7 @@ export const NewDm = () => {
   const handleSelectContact = async (chat) => {
     try {
       console.log(chat);
+      closeChat()
       setSelectedChatType("Contact");
       setSelectedChatData(chat);
       onOpen(false);

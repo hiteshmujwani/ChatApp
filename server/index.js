@@ -6,6 +6,7 @@ import cookieParser from "cookie-parser";
 import AuthRouter from "./Routes/AuthRoutes.js";
 import ContactRouter from "./Routes/ContactsRoute.js";
 import SocketSetup from "./Socket.js";
+import ChatRouter from "./Routes/ChatRoute.js";
 
 // configuring dot env
 dotenv.config();
@@ -42,6 +43,8 @@ app.get("/", async (req, res) => {
 app.use("/api/v1/auth", AuthRouter);
 //contact Route
 app.use("/api/v1/contact", ContactRouter);
+//Chat Route
+app.use("/api/v1/chat", ChatRouter);
 
 //listning to server
 const server = app.listen(port, () => {
