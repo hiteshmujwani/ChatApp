@@ -12,7 +12,14 @@ import { useNavigate } from "react-router-dom";
 import DmContactsList from "./Components/DmContactsList";
 
 const ContactsContainer = () => {
-  const { userInfo, setUserInfo,setDmContactsList,dmContactsList } = useAppStore();
+  const {
+    userInfo,
+    setUserInfo,
+    setDmContactsList,
+    dmContactsList,
+    selectedChatData,
+    closeChat,
+  } = useAppStore();
   const navigate = useNavigate();
   const toast = useToast();
 
@@ -25,27 +32,30 @@ const ContactsContainer = () => {
     );
     if (response.status == 200) {
       setUserInfo(undefined);
+      closeChat();
       toast({ description: response.data.msg, status: "success" });
       navigate("/");
     }
   };
 
-  useEffect(()=>{
-    const getDmContacts = async () =>{
+  useEffect(() => {
+    const getDmContacts = async () => {
       try {
-        const response = await apiClient.get(GET_DM_CONTACT_LIST,{withCredentials:true})
-        setDmContactsList(response.data.contacts)
+        const response = await apiClient.get(GET_DM_CONTACT_LIST, {
+          withCredentials: true,
+        });
+        if (response.data.contacts.length > 0 && dmContactsList.length === 0) {
+          setDmContactsList(response.data.contacts);
+        }
       } catch (error) {
-        console.log("error in fetching dm list in frontend " ,error)
+        console.log("error in fetching dm list in frontend ", error);
       }
+    };
+
+    if (dmContactsList.length === 0) {
+      getDmContacts();
     }
-    
-    if(dmContactsList.length > 0){
-      return
-    }
-    
-    getDmContacts()
-  },[])
+  }, [selectedChatData]); // Notice that no dependency here to avoid extra re-renders.
 
   return (
     <div className="bg-[#242423] text-white w-[25vw] flex flex-col">
@@ -56,16 +66,16 @@ const ContactsContainer = () => {
       <Divider />
       <div className="flex flex-col p-5 gap-1 ">
         <div>
-        <div className="flex justify-between items-center">
-          <div className="flex gap-1 items-center">
-            <GoDotFill />
-            <Title title={"Direct Messages"} />
+          <div className="flex justify-between items-center">
+            <div className="flex gap-1 items-center">
+              <GoDotFill />
+              <Title title={"Direct Messages"} />
+            </div>
+            <div>
+              <NewDm />
+            </div>
           </div>
-          <div>
-            <NewDm />
-          </div>
-        </div>
-        {dmContactsList != undefined && <DmContactsList/>}
+          {dmContactsList != undefined && <DmContactsList />}
         </div>
         <div className="flex gap-1 items-center">
           <GoDotFill />
